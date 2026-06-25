@@ -149,7 +149,10 @@ namespace IAPKit
             => productId != null && map.TryGetValue(productId, out var v) ? v : string.Empty;
         public void RecordSubscriptionTransaction(string productId, string txnId)
         {
-            if (!string.IsNullOrEmpty(productId)) map[productId] = txnId;
+            if (!string.IsNullOrEmpty(productId))
+            {
+                map[productId] = txnId;
+            }
         }
     }
 

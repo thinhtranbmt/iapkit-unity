@@ -113,11 +113,17 @@ namespace IAPKit
         private static List<ProductDefinition> BuildProductDefinitions(IReadOnlyList<IapProduct> products)
         {
             var list = new List<ProductDefinition>();
-            if (products == null) return list;
+            if (products == null)
+            {
+                return list;
+            }
 
             foreach (var p in products)
             {
-                if (string.IsNullOrEmpty(p.ProductId)) continue;
+                if (string.IsNullOrEmpty(p.ProductId))
+                {
+                    continue;
+                }
                 list.Add(new ProductDefinition(p.ProductId, p.ProductId, ToStoreProductType(p.Type)));
             }
             return list;
@@ -136,7 +142,10 @@ namespace IAPKit
 
         private void SubscribeToStoreEvents()
         {
-            if (storeController == null) return;
+            if (storeController == null)
+            {
+                return;
+            }
 
             storeController.OnProductsFetched += OnProductsFetched;
             storeController.OnProductsFetchFailed += OnProductsFetchFailed;
@@ -152,7 +161,10 @@ namespace IAPKit
         /// <summary>Call from the host MonoBehaviour's OnDestroy.</summary>
         public void Dispose()
         {
-            if (storeController == null) return;
+            if (storeController == null)
+            {
+                return;
+            }
             try
             {
                 storeController.OnProductsFetched -= OnProductsFetched;
@@ -175,7 +187,10 @@ namespace IAPKit
         /// <summary>Enqueue a buy request (processed sequentially).</summary>
         public void Buy(string productId, Action<string> onSuccess, Action<string> onFail)
         {
-            if (string.IsNullOrEmpty(productId)) return;
+            if (string.IsNullOrEmpty(productId))
+            {
+                return;
+            }
 
             purchaseQueue.Enqueue(new PurchaseRequest
             {
@@ -253,11 +268,17 @@ namespace IAPKit
         {
             expiry = default;
             isActive = false;
-            if (string.IsNullOrEmpty(productId)) return false;
+            if (string.IsNullOrEmpty(productId))
+            {
+                return false;
+            }
 
             string receipt = null;
             ownedOrders.TryGetValue(productId, out Order ownedOrder);
-            if (ownedOrder != null) receipt = ownedOrder.Info?.Receipt;
+            if (ownedOrder != null)
+            {
+                receipt = ownedOrder.Info?.Receipt;
+            }
 
             // Apple / StoreKit2: unified Receipt is often empty after reinstall and
             // SubscriptionManager can't parse StoreKit2 anyway — read expiry from the JWS.
@@ -274,7 +295,10 @@ namespace IAPKit
             if (string.IsNullOrEmpty(receipt))
             {
                 Product product = storeController?.GetProductById(productId);
-                if (product != null && product.hasReceipt) receipt = product.receipt;
+                if (product != null && product.hasReceipt)
+                {
+                    receipt = product.receipt;
+                }
             }
 
             if (string.IsNullOrEmpty(receipt))
@@ -287,7 +311,10 @@ namespace IAPKit
             {
                 var manager = new SubscriptionManager(receipt, productId, null);
                 SubscriptionInfo info = manager.getSubscriptionInfo();
-                if (info == null) return false;
+                if (info == null)
+                {
+                    return false;
+                }
 
                 isActive = info.IsSubscribed() == Result.True;
                 expiry = info.GetExpireDate();
@@ -320,7 +347,10 @@ namespace IAPKit
 
         private async UniTask ProcessPurchaseQueue()
         {
-            if (isProcessingQueue) return;
+            if (isProcessingQueue)
+            {
+                return;
+            }
             isProcessingQueue = true;
 
             try
@@ -611,17 +641,29 @@ namespace IAPKit
         /// </summary>
         private void DetectAndLogRenewal(string productId, string receipt)
         {
-            if (string.IsNullOrEmpty(productId)) return;
+            if (string.IsNullOrEmpty(productId))
+            {
+                return;
+            }
 
             string txnId = IapReceiptParser.GetTransactionId(receipt);
-            if (string.IsNullOrEmpty(txnId)) return;
+            if (string.IsNullOrEmpty(txnId))
+            {
+                return;
+            }
 
             string prevTxn = txnStore.GetLastSubscriptionTxn(productId);
-            if (txnId == prevTxn) return; // unchanged
+            if (txnId == prevTxn)
+            {
+                return; // unchanged
+            }
 
             txnStore.RecordSubscriptionTransaction(productId, txnId);
 
-            if (string.IsNullOrEmpty(prevTxn)) return; // first sighting -> baseline only
+            if (string.IsNullOrEmpty(prevTxn))
+            {
+                return; // first sighting -> baseline only
+            }
 
             Debug.LogWarning($"[IAPKit][AUTO-RENEW] product={productId} renewed/upgraded! prevTxn={prevTxn} -> newTxn={txnId}");
         }

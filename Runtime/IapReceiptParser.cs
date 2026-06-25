@@ -74,7 +74,10 @@ namespace IAPKit
                 if (!string.IsNullOrEmpty(receipt))
                 {
                     IapReceiptEnvelope env = JsonUtility.FromJson<IapReceiptEnvelope>(receipt);
-                    if (env != null) return env.Store ?? string.Empty;
+                    if (env != null)
+                    {
+                        return env.Store ?? string.Empty;
+                    }
                 }
             }
             catch { }
@@ -96,7 +99,10 @@ namespace IAPKit
                         if (payload != null && !string.IsNullOrEmpty(payload.json))
                         {
                             IapPurchaseReceipt receiptData = JsonUtility.FromJson<IapPurchaseReceipt>(payload.json);
-                            if (receiptData != null) quantity = receiptData.quantity;
+                            if (receiptData != null)
+                            {
+                                quantity = receiptData.quantity;
+                            }
                         }
                     }
                 }
@@ -116,7 +122,10 @@ namespace IAPKit
             try
             {
                 string[] parts = jws.Split('.');
-                if (parts.Length != 3) return false; // not a JWS
+                if (parts.Length != 3)
+                {
+                    return false; // not a JWS
+                }
 
                 // Base64url -> Base64, then pad to a multiple of 4.
                 string body = parts[1].Replace('-', '+').Replace('_', '/');
@@ -128,7 +137,10 @@ namespace IAPKit
 
                 string json = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(body));
                 AppleJwsTransaction txn = JsonUtility.FromJson<AppleJwsTransaction>(json);
-                if (txn == null) return false;
+                if (txn == null)
+                {
+                    return false;
+                }
 
                 if (config != null && config.OverrideAppleExpiresDate && txn.purchaseDate > 0)
                 {
