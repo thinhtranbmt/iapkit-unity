@@ -1,0 +1,30 @@
+{
+  "name": "com.mycore.iapkit",
+  "version": "0.1.0",
+  "displayName": "IAPKit",
+  "description": "A reusable Unity In-App Purchasing module built on Unity Purchasing v5 + UniTask. Connect/FetchProducts/FetchPurchases flow, sequential purchase queue, kill-after-pay recovery, owned-order tracking, Google subscription upgrade (proration), Apple StoreKit2 JWS expiry, and auto-renew detection. Game-specific touch points are seams; zero game-specific dependencies.",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/thinhtranbmt/iapkit-unity#readme",
+  "changelogUrl": "https://github.com/thinhtranbmt/iapkit-unity/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/thinhtranbmt/iapkit-unity/blob/main/LICENSE.md",
+  "dependencies": {
+    "com.unity.purchasing": "5.3.1"
+  },
+  "keywords": [
+    "iap",
+    "in-app-purchase",
+    "purchasing",
+    "subscription",
+    "unitask"
+  ],
+  "author": {
+    "name": "MyCore"
+  },
+  "samples": [
+    {
+      "displayName": "Roxane Adapter (template)",
+      "description": "App-side wiring example: config/txn-store/listener seams + a drop-in MonoBehaviour host.",
+      "path": "Samples~/RoxaneAdapter"
+    }
+  ]
+}

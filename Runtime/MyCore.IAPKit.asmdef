@@ -1,0 +1,19 @@
+{
+    "name": "MyCore.IAPKit",
+    "rootNamespace": "IAPKit",
+    "references": [
+        "UniTask",
+        "Unity.Services.Core",
+        "Unity.Purchasing",
+        "Unity.Purchasing.Stores"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
